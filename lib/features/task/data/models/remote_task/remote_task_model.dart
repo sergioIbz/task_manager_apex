@@ -15,3 +15,4 @@ abstract class RemoteTask with _$RemoteTask {
   factory RemoteTask.fromJson(Map<String, dynamic> json) =>
       _$RemoteTaskFromJson(json);
 }
+
