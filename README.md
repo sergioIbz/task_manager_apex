@@ -24,7 +24,7 @@ Este proyecto es una **prueba técnica en Flutter**: un gestor de tareas que uti
 2. **Instalar dependencias**
    ```bash
    flutter pub get
-````
+
 
 3. **Generar el código de modelos y clases**
 
