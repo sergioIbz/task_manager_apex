@@ -17,23 +17,32 @@ class HiveLocalTaskDataSource implements LocalTaskDataSource {
     if (map['items'] is List) {
       map['items'] = (map['items'] as List).map((e) {
         if (e is TaskItemEntity) return Map<String, dynamic>.from(e.toJson());
-        if (e is Map) return Map<String, dynamic>.from(e as Map);
+        if (e is Map) return Map<String, dynamic>.from(e);
         return e;
       }).toList();
     }
     return map;
   }
 
+  Map<String, dynamic> _normalizeFromHive(Map raw) {
+    final map = Map<String, dynamic>.from(raw);
+    final items = map['items'];
+    if (items is List) {
+      map['items'] = items.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+    }
+    return map;
+  }
+
   @override
   Future<List<TaskEntity>> getTasks() async {
-    return _box.values.map((m) => TaskEntity.fromJson(Map<String, dynamic>.from(m))).toList();
+    return _box.values.map((m) => TaskEntity.fromJson(_normalizeFromHive(m))).toList();
   }
 
   @override
   Future<TaskEntity?> getTaskById(String id) async {
     final raw = _box.get(id);
     if (raw == null) return null;
-    return TaskEntity.fromJson(Map<String, dynamic>.from(raw));
+    return TaskEntity.fromJson(_normalizeFromHive(raw));
   }
 
   @override

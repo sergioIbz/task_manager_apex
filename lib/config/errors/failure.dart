@@ -3,7 +3,7 @@ class Failure {
   final int? code;
   final dynamic details;
 
-  const Failure({
+  const Failure( {
     required this.message,
     this.code,
     this.details,

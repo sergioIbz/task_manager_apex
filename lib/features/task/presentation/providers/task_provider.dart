@@ -1,21 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/di/dependency_injection.dart';
-import '../../../config/errors/failure.dart';
-import '../domain/entities/task_entity.dart';
-import '../domain/usecases/add_local_task_item.dart';
-import '../domain/usecases/add_tasks.dart';
-import '../domain/usecases/clear_local.dart';
-import '../domain/usecases/create_local_task.dart';
-import '../domain/usecases/delete_local_task.dart';
-import '../domain/usecases/get_local_task_by_id.dart';
-import '../domain/usecases/get_local_tasks.dart';
-import '../domain/usecases/get_remote_task.dart';
-import '../domain/usecases/remove_local_task_item.dart';
-import '../domain/usecases/reorder_local_task_items.dart';
-import '../domain/usecases/toggle_local_task_completion.dart';
-import '../domain/usecases/update_local_task.dart';
-import '../domain/usecases/update_local_task_item.dart';
+import '../../../../config/di/dependency_injection.dart';
+import '../../../../config/errors/failure.dart';
+import '../../domain/entities/task_entity.dart';
+import '../../domain/usecases/add_local_task_item.dart';
+import '../../domain/usecases/add_tasks.dart';
+import '../../domain/usecases/clear_local.dart';
+import '../../domain/usecases/create_local_task.dart';
+import '../../domain/usecases/delete_local_task.dart';
+import '../../domain/usecases/get_local_task_by_id.dart';
+import '../../domain/usecases/get_local_tasks.dart';
+import '../../domain/usecases/get_remote_task.dart';
+import '../../domain/usecases/remove_local_task_item.dart';
+import '../../domain/usecases/reorder_local_task_items.dart';
+import '../../domain/usecases/toggle_local_task_completion.dart';
+import '../../domain/usecases/update_local_task.dart';
+import '../../domain/usecases/update_local_task_item.dart';
 
 class TaskState {
   final List<TaskEntity> tasks;
@@ -72,14 +72,14 @@ class TaskNotifier extends StateNotifier<TaskState> {
     required this.addTasks,
   }) : super(const TaskState());
 
-  Future<void> fetchRemoteTasks() async {
-    state = state.copyWith(isLoading: true, failure: null);
-    final result = await getRemoteTasks();
-    result.fold(
-      (failure) => state = state.copyWith(isLoading: false, failure: failure),
-      (tasks) => state = state.copyWith(isLoading: false, tasks: tasks),
-    );
-  }
+  // Future<void> fetchRemoteTasks() async {
+  //   state = state.copyWith(isLoading: true, failure: null);
+  //   final result = await getRemoteTasks();
+  //   result.fold(
+  //     (failure) => state = state.copyWith(isLoading: false, failure: failure),
+  //     (tasks) => state = state.copyWith(isLoading: false, tasks: tasks),
+  //   );
+  // }
 
   Future<void> fetchLocalTasks() async {
     state = state.copyWith(isLoading: true, failure: null);
@@ -89,27 +89,12 @@ class TaskNotifier extends StateNotifier<TaskState> {
         state = state.copyWith(isLoading: false, failure: failure);
       },
       (localTasks) async {
-        if (localTasks.isNotEmpty) {
+        
           state = state.copyWith(isLoading: false, tasks: localTasks);
           return;
-        }
-        final remoteResult = await getRemoteTasks();
-        await remoteResult.fold(
-          (failure) async {
-            state = state.copyWith(isLoading: false, failure: failure);
-          },
-          (remoteTasks) async {
-            if (remoteTasks.isEmpty) {
-              state = state.copyWith(isLoading: false, tasks: const []);
-              return;
-            }
-            final persistResult = await addTasks(remoteTasks);
-            persistResult.fold(
-              (failure) => state = state.copyWith(isLoading: false, failure: failure),
-              (_) => state = state.copyWith(isLoading: false, tasks: remoteTasks),
-            );
-          },
-        );
+        
+       
+       
       },
     );
   }
