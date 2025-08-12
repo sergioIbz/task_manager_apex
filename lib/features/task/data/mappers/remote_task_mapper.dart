@@ -1,6 +1,6 @@
-import 'package:task_manager_apex/features/task/domain/entities/task_entity.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../domain/entities/task_entity.dart';
 import '../models/remote_task/remote_task_model.dart';
 
 class RemoteTaskMapper {

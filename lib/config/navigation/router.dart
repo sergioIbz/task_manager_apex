@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:task_manager_apex/features/countries/presentation/screens/country_info.dart';
 
 import '../../features/countries/presentation/screens/countries_screen.dart';
+import '../../features/countries/presentation/screens/country_info.dart';
 import '../../features/task/domain/entities/task_entity.dart';
 import '../../features/task/presentation/screens/add_task_scree.dart';
 import '../../features/task/presentation/screens/edit_task_screen.dart';

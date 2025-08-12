@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../config/di/dependency_injection.dart';
 import '../../../../config/errors/failure.dart';
@@ -42,6 +43,7 @@ class TaskState {
 }
 
 class TaskNotifier extends StateNotifier<TaskState> {
+  static const _fetchedKey = 'remote_tasks_fetched';
   final GetRemoteTasks getRemoteTasks;
   final GetLocalTasks getLocalTasks;
   final GetLocalTaskById getLocalTaskById;
@@ -72,14 +74,34 @@ class TaskNotifier extends StateNotifier<TaskState> {
     required this.addTasks,
   }) : super(const TaskState());
 
-  // Future<void> fetchRemoteTasks() async {
-  //   state = state.copyWith(isLoading: true, failure: null);
-  //   final result = await getRemoteTasks();
-  //   result.fold(
-  //     (failure) => state = state.copyWith(isLoading: false, failure: failure),
-  //     (tasks) => state = state.copyWith(isLoading: false, tasks: tasks),
-  //   );
-  // }
+  Future<void> fetchRemoteTasksOnce() async {
+    final prefs = await SharedPreferences.getInstance();
+    final fetched = prefs.getBool(_fetchedKey) ?? false;
+    if (fetched) return;
+    final ok = await fetchRemoteTasks();
+    if (ok) {
+      await prefs.setBool(_fetchedKey, true);
+    }
+  }
+  
+
+  Future<bool> fetchRemoteTasks() async {
+    state = state.copyWith(isLoading: true, failure: null);
+    final result = await getRemoteTasks();
+    bool success = false;
+    await result.fold(
+      (failure) async {
+        state = state.copyWith(isLoading: false, failure: failure);
+        success = false;
+      },
+      (tasks) async {
+        await addTasksBulk(tasks);
+        state = state.copyWith(isLoading: false);
+        success = true;
+      },
+    );
+    return success;
+  }
 
   Future<void> fetchLocalTasks() async {
     state = state.copyWith(isLoading: true, failure: null);
@@ -89,12 +111,8 @@ class TaskNotifier extends StateNotifier<TaskState> {
         state = state.copyWith(isLoading: false, failure: failure);
       },
       (localTasks) async {
-        
-          state = state.copyWith(isLoading: false, tasks: localTasks);
-          return;
-        
-       
-       
+        state = state.copyWith(isLoading: false, tasks: localTasks);
+        return;
       },
     );
   }
@@ -144,7 +162,11 @@ class TaskNotifier extends StateNotifier<TaskState> {
     );
   }
 
-  Future<void> reorderTaskItems(String taskId, int oldIndex, int newIndex) async {
+  Future<void> reorderTaskItems(
+    String taskId,
+    int oldIndex,
+    int newIndex,
+  ) async {
     state = state.copyWith(isLoading: true, failure: null);
     final result = await reorderLocalTaskItems(taskId, oldIndex, newIndex);
     result.fold(
@@ -169,14 +191,23 @@ class TaskNotifier extends StateNotifier<TaskState> {
     List<TaskItemEntity>? items,
   }) async {
     state = state.copyWith(isLoading: true, failure: null);
-    final result = await updateLocalTask(id, title: title, isCompleted: isCompleted, items: items);
+    final result = await updateLocalTask(
+      id,
+      title: title,
+      isCompleted: isCompleted,
+      items: items,
+    );
     result.fold(
       (failure) => state = state.copyWith(isLoading: false, failure: failure),
       (_) => fetchLocalTasks(),
     );
   }
 
-  Future<void> updateTaskItem(String taskId, int index, TaskItemEntity item) async {
+  Future<void> updateTaskItem(
+    String taskId,
+    int index,
+    TaskItemEntity item,
+  ) async {
     state = state.copyWith(isLoading: true, failure: null);
     final result = await updateLocalTaskItem(taskId, index, item);
     result.fold(
@@ -212,5 +243,3 @@ final taskProvider = StateNotifierProvider<TaskNotifier, TaskState>((ref) {
     addTasks: AddTasks(getIt()),
   );
 });
-
-

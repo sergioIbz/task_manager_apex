@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:task_manager_apex/features/countries/presentation/providers/get_country_info_provider.dart';
+
+import '../providers/get_country_info_provider.dart';
 
 class CountryInfo extends ConsumerWidget {
   final String countryCode;
@@ -13,9 +14,9 @@ class CountryInfo extends ConsumerWidget {
       appBar: AppBar(title: const Text('Información del país')),
       body: state.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => _ErrorWidget(),
         data: (either) => either.fold(
-          (failure) => Center(child: Text('Error: ${failure.toString()}')),
+          (failure) => _ErrorWidget(),
           (country) => ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -65,5 +66,17 @@ class CountryInfo extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class _ErrorWidget extends StatelessWidget {
+  const _ErrorWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Text('No hay suficiente información para este país'),
+    ));
   }
 }

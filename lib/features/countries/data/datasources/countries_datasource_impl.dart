@@ -1,7 +1,7 @@
-import 'package:task_manager_apex/config/network/graph_client.dart';
-import 'package:task_manager_apex/features/countries/data/models/country/country_model.dart';
-import 'package:task_manager_apex/features/countries/data/models/country_flag/country_flag_model.dart';
-import 'package:task_manager_apex/features/countries/domain/datasources/countries_datasource.dart';
+import '../../../../config/network/graph_client.dart';
+import '../../domain/datasources/countries_datasource.dart';
+import '../models/country/country_model.dart';
+import '../models/country_flag/country_flag_model.dart';
 
 class CountriesDatasourceImpl implements CountriesDataSource {
   final GraphClient graphClient;

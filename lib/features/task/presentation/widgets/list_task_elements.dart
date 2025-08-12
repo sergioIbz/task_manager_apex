@@ -70,10 +70,10 @@ class ListTaskElements extends ConsumerWidget {
                 onTap: () => context.push('/edit-task', extra: task),
                 title: Text(task.title),
                 subtitle: TaskProgressBar(task: task, height: 10),
-                trailing: Icon(
-                  task.isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
-                  color: task.isCompleted ? Colors.green : Colors.grey,
-                ),
+                trailing:task.isCompleted ? Icon(
+                   Icons.check_circle ,
+                  color:  Colors.green,
+                ):null,
               );
             },
           ),

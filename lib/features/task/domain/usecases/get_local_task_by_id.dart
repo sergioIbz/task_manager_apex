@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
+
+import '../../../../config/errors/failure.dart';
 import '../entities/task_entity.dart';
 import '../repositories/tastk_repository.dart';
-import '../../../../config/errors/failure.dart';
 
 class GetLocalTaskById {
   final TaskRepository repository;

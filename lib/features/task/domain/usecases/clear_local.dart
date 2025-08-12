@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-import '../repositories/tastk_repository.dart';
+
 import '../../../../config/errors/failure.dart';
+import '../repositories/tastk_repository.dart';
 
 class ClearLocal {
   final TaskRepository repository;

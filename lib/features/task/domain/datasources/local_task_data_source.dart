@@ -1,6 +1,5 @@
 
-
-import 'package:task_manager_apex/features/task/domain/entities/task_entity.dart';
+import '../entities/task_entity.dart';
 
 abstract class LocalTaskDataSource {
   Future<List<TaskEntity>> getTasks();

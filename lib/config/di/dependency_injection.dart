@@ -1,16 +1,17 @@
-// lib/config/di/dependency_injection.dart
+
 import 'package:get_it/get_it.dart';
-import 'package:task_manager_apex/config/network/graph_client.dart';
-import 'package:task_manager_apex/config/network/rest_client.dart';
-import 'package:task_manager_apex/features/countries/data/datasources/countries_datasource_impl.dart';
-import 'package:task_manager_apex/features/countries/data/repositories/countries_repository_impl.dart';
-import 'package:task_manager_apex/features/countries/domain/datasources/countries_datasource.dart';
-import 'package:task_manager_apex/features/countries/domain/repositories/countries_repository.dart';
-import 'package:task_manager_apex/features/task/data/datasources/hive_local_task_data_source.dart';
-import 'package:task_manager_apex/features/task/data/datasources/remote_task_datasource.dart';
-import 'package:task_manager_apex/features/task/data/repositories/task_repository_impl.dart';
-import 'package:task_manager_apex/features/task/domain/datasources/remote_task_data_source.dart';
-import 'package:task_manager_apex/features/task/domain/repositories/tastk_repository.dart';
+
+import '../../features/countries/data/datasources/countries_datasource_impl.dart';
+import '../../features/countries/data/repositories/countries_repository_impl.dart';
+import '../../features/countries/domain/datasources/countries_datasource.dart';
+import '../../features/countries/domain/repositories/countries_repository.dart';
+import '../../features/task/data/datasources/hive_local_task_data_source.dart';
+import '../../features/task/data/datasources/remote_task_datasource.dart';
+import '../../features/task/data/repositories/task_repository_impl.dart';
+import '../../features/task/domain/datasources/remote_task_data_source.dart';
+import '../../features/task/domain/repositories/tastk_repository.dart';
+import '../network/graph_client.dart';
+import '../network/rest_client.dart';
 
 final GetIt getIt = GetIt.instance;
 

@@ -2,7 +2,7 @@ name: task_manager_apex
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
   sdk: ^3.8.1
@@ -20,6 +20,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   json_annotation: ^4.9.0
+  shared_preferences: ^2.5.3
   uuid: ^4.5.1
 
 dev_dependencies:

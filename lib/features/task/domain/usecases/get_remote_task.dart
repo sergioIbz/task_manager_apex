@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:task_manager_apex/config/errors/failure.dart';
-import 'package:task_manager_apex/features/task/domain/entities/task_entity.dart';
-import 'package:task_manager_apex/features/task/domain/repositories/tastk_repository.dart';
+
+import '../../../../config/errors/failure.dart';
+import '../entities/task_entity.dart';
+import '../repositories/tastk_repository.dart';
 
 class GetRemoteTasks {
   final TaskRepository repository;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:task_manager_apex/features/task/presentation/providers/task_provider.dart';
+
 import '../../domain/entities/task_entity.dart';
+import '../providers/task_provider.dart';
 
 class EditTaskScreen extends ConsumerStatefulWidget {
   final TaskEntity task;
